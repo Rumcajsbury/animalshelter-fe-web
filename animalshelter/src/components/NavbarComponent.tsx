@@ -20,6 +20,14 @@ const NavbarComponent: React.FC<LogInfo> = ({ isLoggedIn }: LogInfo) => {
               <NavLinkBtn route="register" label="Zarejestruj się" />
             </>
           )}
+          {isLoggedIn && (
+            <>
+              <NavLinkBtn route="login" label="Schroniska" />
+              <NavLinkBtn route="login" label="Profil" />
+              <NavLinkBtn route="login" label="Ustawienia" />
+              <NavLinkBtn route="register" label="Wyloguj się" />
+            </>
+          )}
         </ul>
       </div>
     </nav>

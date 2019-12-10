@@ -7,12 +7,12 @@ import { Switch, Route } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
-    <>
+      <div className="App">
       <NavbarComponent isLoggedIn={false} />
       <Switch>
         <Route exact path="/" component={StartPage} />
       </Switch>
-    </>
+      </div>
   );
 };
 
