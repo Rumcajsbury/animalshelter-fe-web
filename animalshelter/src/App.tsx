@@ -8,9 +8,9 @@ import { Switch, Route } from "react-router-dom";
 const App: React.FC = () => {
   return (
     <>
-      <NavbarComponent />
+      <NavbarComponent isLoggedIn={false} />
       <Switch>
-        <Route exact path="/" component={StartPage}/>
+        <Route exact path="/" component={StartPage} />
       </Switch>
     </>
   );
