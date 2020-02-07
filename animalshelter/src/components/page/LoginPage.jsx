@@ -93,7 +93,7 @@ class LoginPage extends React.Component {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Adres Email"
                   value={this.state.email}
                   onChange={this.handleEmailChange}
                   name="email"
@@ -106,7 +106,7 @@ class LoginPage extends React.Component {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Hasło"
                   type="password"
                   id="password"
                   value={this.state.password}
@@ -117,18 +117,15 @@ class LoginPage extends React.Component {
               <Grid item xs={12}>
                 <FormControl variant="filled" className={classes.formControl}>
                   <InputLabel id="demo-simple-select-filled-label">
-                    Age
+                    Role
                   </InputLabel>
                   <Select
                   value={this.state.userType}
                   onChange={this.handleUserTypeChange}
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
                     <MenuItem value="Admin">Admin</MenuItem>
-                    <MenuItem value="Donor">Donor</MenuItem>
-                    <MenuItem value="ShelterUser">Shelter User</MenuItem>
+                    <MenuItem value="Donor">Darczyńca</MenuItem>
+                    <MenuItem value="ShelterUser">Użytkownik schroniska</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
