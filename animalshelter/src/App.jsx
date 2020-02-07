@@ -1,4 +1,5 @@
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.css';
 import "./App.css";
 import NavbarComponent from "./components/NavigationBar";
 import StartPage from "./components/page/StartPage";
@@ -6,6 +7,7 @@ import {Switch, Route} from "react-router-dom";
 import LoginPage from "./components/page/LoginPage";
 import NotFoundPage from "./components/page/NotFoundPage";
 import RegisterPage from "./components/page/RegisterPage";
+import SheltersPage from "./components/page/SheltersPage/SheltersPage";
 
 class App extends React.Component {
     render() {
@@ -16,6 +18,8 @@ class App extends React.Component {
                     <Route exact path="/" component={StartPage}/>
                     <Route exact path="/login" component={LoginPage}/>
                     <Route exact path="/register" component={RegisterPage}/>
+                    <Route exact path="/shelters" component={SheltersPage}/>
+
                     <Route component={NotFoundPage}/>
                 </Switch>
             </div>
