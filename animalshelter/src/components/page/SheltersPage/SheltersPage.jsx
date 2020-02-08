@@ -20,7 +20,6 @@ const SheltersPage = () => {
         </thead>
         <tbody>
           {shelters.map((shelter, i) => {
-            console.log(i);
             return <SheltersRow shelter={shelter} key={i}/>;
           })}
         </tbody>
