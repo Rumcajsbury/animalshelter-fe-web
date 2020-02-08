@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import WebService from "../../service/WebService";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -32,128 +32,110 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
-    width: "100%",
+    width: "100%"
   }
 });
 
-class LoginPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      userType: ""
-    };
+const LoginPage = ({ classes, onUserLogIn }) => {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+    userType: ""
+  });
 
-    this.login = this.login.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleUserTypeChange = this.handleUserTypeChange.bind(this);
-  }
+  const handleEmailChange = ({ target }) =>
+    setUser({ ...user, email: target.value });
+  const handlePasswordChange = ({ target }) =>
+    setUser({ ...user, password: target.value });
+  const handleUserTypeChange = ({ target }) =>
+    setUser({ ...user, userType: target.value });
 
-  handleEmailChange(event) {
-    this.setState({ email: event.target.value });
-  }
-
-  handlePasswordChange(event) {
-    this.setState({ password: event.target.value });
-  }
-
-  handleUserTypeChange(event) {
-    this.setState({ userType: event.target.value });
-  }
-
-  login(e) {
+  const login = e => {
     e.preventDefault();
     WebService.post("auth", {
-      email: this.state.email,
-      password: this.state.password,
-      userType: this.state.userType
+      email: user.email,
+      password: user.password,
+      userType: user.userType
     })
       .then(function(response) {
-        console.log(response);
+        window.localStorage.setItem("token", response.data.token);
+        onUserLogIn({ email: user.email, userType: user.userType });
       })
       .catch(function(error) {
         console.log(error);
       });
-  }
+  };
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <h1>Login</h1>
-          <form className={classes.form} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Adres Email"
-                  value={this.state.email}
-                  onChange={this.handleEmailChange}
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Hasło"
-                  type="password"
-                  id="password"
-                  value={this.state.password}
-                  onChange={this.handlePasswordChange}
-                  autoComplete="current-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl variant="filled" className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-filled-label">
-                    Role
-                  </InputLabel>
-                  <Select
-                  value={this.state.userType}
-                  onChange={this.handleUserTypeChange}
-                  >
-                    <MenuItem value="Admin">Admin</MenuItem>
-                    <MenuItem value="Donor">Darczyńca</MenuItem>
-                    <MenuItem value="ShelterUser">Użytkownik schroniska</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <h1>Login</h1>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Adres Email"
+                value={user.email}
+                onChange={handleEmailChange}
+                name="email"
+                autoComplete="email"
+              />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Hasło"
+                type="password"
+                id="password"
+                value={user.password}
+                onChange={handlePasswordChange}
+                autoComplete="current-password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl variant="filled" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-filled-label">
+                  Rola
+                </InputLabel>
+                <Select value={user.userType} onChange={handleUserTypeChange}>
+                  <MenuItem value="Admin">Admin</MenuItem>
+                  <MenuItem value="Donor">Darczyńca</MenuItem>
+                  <MenuItem value="ShelterUser">Użytkownik schroniska</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={e => this.login(e)}
-            >
-              Login
-            </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <NavigationButton
-                  route="register"
-                  label="Don't have an account? Register here"
-                />
-              </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={e => login(e)}
+          >
+            Login
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <NavigationButton
+                route="register"
+                label="Don't have an account? Register here"
+              />
             </Grid>
-          </form>
-        </div>
-      </Container>
-    );
-  }
-}
+          </Grid>
+        </form>
+      </div>
+    </Container>
+  );
+};
 
 export default withStyles(styles)(LoginPage);
