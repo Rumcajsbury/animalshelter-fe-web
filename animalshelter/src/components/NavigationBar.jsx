@@ -3,6 +3,7 @@ import NavigationButton from "./common/NavigationButton";
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
+import UserContex from '../service/UserContext';
 
 const styles = theme => ({
   root: {
@@ -14,7 +15,7 @@ const styles = theme => ({
   }
 });
 
-const NavigationBar = ({classes, isLoggedIn, onUserLogOut}) =>{
+const NavigationBar = ({classes, onUserLogOut}) =>{
 
     return (
       <AppBar position="static" className={classes.root}>
@@ -24,14 +25,15 @@ const NavigationBar = ({classes, isLoggedIn, onUserLogOut}) =>{
               ShenAn
             </Button>
           </Typography>
-          {!isLoggedIn && (
+          {!UserContex.loggedIn && (
             <div>
               <NavigationButton route="login" label="Zaloguj się" />
               <NavigationButton route="register" label="Zarejestruj się" />
             </div>
           )}
-          {isLoggedIn && (
+          {UserContex.loggedIn && (
             <div>
+              <NavigationButton label={UserContex.email} />
               <NavigationButton route="shelters" label="Schroniska" />
               <NavigationButton route="profil" label="Profil" />
               <NavigationButton route="settings" label="Ustawienia" />

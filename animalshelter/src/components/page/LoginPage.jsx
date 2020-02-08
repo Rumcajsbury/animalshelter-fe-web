@@ -14,6 +14,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import jwt_decode from "jwt-decode";
 
 const styles = theme => ({
   paper: {
@@ -59,6 +60,8 @@ const LoginPage = ({ classes, onUserLogIn }) => {
     })
       .then(function(response) {
         window.localStorage.setItem("token", response.data.token);
+        window.sessionStorage.setItem("currentUser", JSON.stringify(jwt_decode(response.data.token)));
+
         onUserLogIn({ email: user.email, userType: user.userType });
       })
       .catch(function(error) {
