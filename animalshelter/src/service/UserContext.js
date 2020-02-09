@@ -1,7 +1,22 @@
 const userContext = {
-  email: "",
-  userType: "",
-  loggedIn: false,
+  email(){
+    if(window.sessionStorage['currentUser'])
+      return JSON.parse(window.sessionStorage.getItem('currentUser')).email;
+
+      return null;
+  },
+  userType(){
+    if(window.sessionStorage['currentUser'])
+      return JSON.parse(window.sessionStorage.getItem('currentUser')).userType;
+
+      return null;
+  },
+  loggedIn(){
+    if(window.sessionStorage['currentUser'])
+      return true;
+
+      return false;
+  },
 
   onUserLogIn(userData) {
     this.email = userData.email;
