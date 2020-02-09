@@ -15,7 +15,7 @@ const styles = theme => ({
   }
 });
 
-const NavigationBar = ({classes, onUserLogOut}) =>{
+const NavigationBar = ({classes, onUserLogOut, isLoggedIn}) =>{
 
     return (
       <AppBar position="static" className={classes.root}>
@@ -25,15 +25,15 @@ const NavigationBar = ({classes, onUserLogOut}) =>{
               ShenAn
             </Button>
           </Typography>
-          {!UserContex.loggedIn && (
+          {!UserContex.loggedIn() && (
             <div>
               <NavigationButton route="login" label="Zaloguj się" />
               <NavigationButton route="register" label="Zarejestruj się" />
             </div>
           )}
-          {UserContex.loggedIn && (
+          {UserContex.loggedIn() && (
             <div>
-              <NavigationButton label={UserContex.email} />
+              <NavigationButton label={UserContex.email()} />
               <NavigationButton route="shelters" label="Schroniska" />
               <NavigationButton route="profil" label="Profil" />
               <NavigationButton route="settings" label="Ustawienia" />
