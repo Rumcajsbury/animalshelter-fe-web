@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import SheltersRow from "./SheltersRow";
 import WebService from '../../../service/WebService';
+import List from "@material-ui/core/List";
+import Card from "@material-ui/core/Card";
 
 const SheltersPage = () => {
   let sheltersArray = [{name: "shelter", adress: "Krakow"}];
@@ -8,38 +10,26 @@ const SheltersPage = () => {
   const [shelters, setShelters] = useState(sheltersArray);
 
   useEffect(() =>{
-    WebService.get("shelters",null ,)
-      .then(function(response) {
-        console.log(response);
-        setShelters(response.data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  },[])
+      WebService.get("shelters", null,)
+          .then(function (response) {
+              console.log(response);
+              setShelters(response.data);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+  },[]);
 
 
   return (
-    <div className="container">
-      <h2>Schroniska</h2>
-      <table className="table">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Schronisko</th>
-            <th scope="col">Miasto</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
+    <Card className="container">
+      <h3>Schroniska</h3>
+      <List>
           {shelters.map((shelter, i) => {
             return <SheltersRow shelter={shelter} key={i} index={i}/>;
           })}
-        </tbody>
-      </table>
-    </div>
+      </List>
+    </Card>
   );
 };
 
