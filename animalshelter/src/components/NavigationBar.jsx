@@ -22,7 +22,7 @@ const NavigationBar = ({ classes, onUserLogOut, isLoggedIn }) => {
         <Typography variant="h6" className={classes.title}>
           <Button color="inherit" component={Link} to={`/`}>
             {!UserContext.loggedIn() && "ShenAn"}
-            {UserContext.loggedIn() && UserContext.email}
+            {UserContext.loggedIn() && UserContext.email()}
           </Button>
         </Typography>
         {!UserContext.loggedIn() && (
@@ -33,7 +33,6 @@ const NavigationBar = ({ classes, onUserLogOut, isLoggedIn }) => {
         )}
         {UserContext.loggedIn() && (
           <div>
-            <NavigationButton label={UserContext.email()} />
             <NavigationButton route="shelters" label="Schroniska" />
             <NavigationButton route="profil" label="Profil" />
             <NavigationButton route="settings" label="Ustawienia" />
