@@ -3,7 +3,7 @@ import NavigationButton from "./common/NavigationButton";
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
-import UserContex from '../service/UserContext';
+import UserContext from "../service/UserContext";
 
 const styles = theme => ({
   root: {
@@ -15,34 +15,38 @@ const styles = theme => ({
   }
 });
 
-const NavigationBar = ({classes, onUserLogOut, isLoggedIn}) =>{
-
-    return (
-      <AppBar position="static" className={classes.root}>
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            <Button color="inherit" component={Link} to={`/`}>
-              ShenAn
-            </Button>
-          </Typography>
-          {!UserContex.loggedIn() && (
-            <div>
-              <NavigationButton route="login" label="Zaloguj się" />
-              <NavigationButton route="register" label="Zarejestruj się" />
-            </div>
-          )}
-          {UserContex.loggedIn() && (
-            <div>
-              <NavigationButton label={UserContex.email()} />
-              <NavigationButton route="shelters" label="Schroniska" />
-              <NavigationButton route="profil" label="Profil" />
-              <NavigationButton route="settings" label="Ustawienia" />
-              <NavigationButton route="login" label="Wyloguj się" handleClick={onUserLogOut} />
-            </div>
-          )}
-        </Toolbar>
-      </AppBar>
-    );
-}
+const NavigationBar = ({ classes, onUserLogOut, isLoggedIn }) => {
+  return (
+    <AppBar position="static" className={classes.root}>
+      <Toolbar>
+        <Typography variant="h6" className={classes.title}>
+          <Button color="inherit" component={Link} to={`/`}>
+            {!UserContext.loggedIn() && "ShenAn"}
+            {UserContext.loggedIn() && UserContext.email}
+          </Button>
+        </Typography>
+        {!UserContext.loggedIn() && (
+          <div>
+            <NavigationButton route="login" label="Zaloguj się" />
+            <NavigationButton route="register" label="Zarejestruj się" />
+          </div>
+        )}
+        {UserContext.loggedIn() && (
+          <div>
+            <NavigationButton label={UserContext.email()} />
+            <NavigationButton route="shelters" label="Schroniska" />
+            <NavigationButton route="profil" label="Profil" />
+            <NavigationButton route="settings" label="Ustawienia" />
+            <NavigationButton
+              route="login"
+              label="Wyloguj się"
+              handleClick={onUserLogOut}
+            />
+          </div>
+        )}
+      </Toolbar>
+    </AppBar>
+  );
+};
 
 export default withStyles(styles)(NavigationBar);

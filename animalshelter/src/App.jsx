@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import NavbarComponent from "./components/NavigationBar";
@@ -16,7 +16,7 @@ import { useHistory } from "react-router";
 
 
 const App = () => {
-  const history = useHistory();
+    const history = useHistory();
 
   const [isLoggedIn, setIsLoggedIn] = useState(UserContext.loggedIn());
   const onUserLogOut = () => {
@@ -55,10 +55,10 @@ const App = () => {
           isLoggedIn={UserContext.loggedIn()}
         />
 
-        <Route component={NotFoundPage} />
-      </Switch>
-    </div>
-  );
+                <Route component={NotFoundPage}/>
+            </Switch>
+        </div>
+    );
 };
 
 export default App;
