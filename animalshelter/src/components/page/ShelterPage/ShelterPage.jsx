@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import WebService from "../../../service/WebService";
 import Card from "@material-ui/core/Card";
 import List from "@material-ui/core/List";
+import {Button} from "@material-ui/core";
 import SheltersRow from "../SheltersPage/SheltersRow";
 import {Link} from "react-router-dom";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -9,26 +10,28 @@ import Avatar from "@material-ui/core/Avatar";
 import {Home, Pets} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
+import UserContext from '../../../service/UserContext';
+import DonationPopUpForm from '../../common/DontaionPopUpForm';
 
-class ShelterPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            shelter: this.props.location.state.shelter
-        };
-
-        console.log(this.state);
+const ShelterPage = (props) => {
+    const [shelter, setShelter] = useState(props.location.state.shelter);
+    const [showPopUp, setShowPopUp] = useState(false);
+    const managePopUp = () =>{
+        setShowPopUp(!showPopUp);
     }
 
-    render() {
-        return (
+        console.log(shelter);
+
+        return (<div>
             <Card className="container">
-                <h3>{this.state.shelter?.ownerName}</h3>
-                <h6>{this.state.shelter?.description}</h6>
-                <img src={this.state.shelter?.mainPhoto}/>
+                <h3>{shelter?.ownerName}</h3>
+                    {UserContext.userType() === "Donor" &&  <Button style={{float: "right"}} color="inherit" onClick={managePopUp}>Zrób dotację</Button>}
+
+                <h6>{shelter?.description}</h6>
+                <img src={shelter?.mainPhoto} alt="mainPhoto"/>
 
                 <List>
-                    {this.state.shelter.animals.map((animal, i) => {
+                    {shelter.animals.map((animal, i) => {
                         return <ListItem button
                                          component={Link} to={{
                             pathname: '/animal',
@@ -47,8 +50,12 @@ class ShelterPage extends React.Component {
                     })}
                 </List>
             </Card>
-        )
-    }
+                {showPopUp && <DonationPopUpForm showModal={showPopUp} closeModal={managePopUp} />}
+        {/* //   text='Click "Close Button" to hide popup'  
+        //   closePopUp={managePopUp}   */}
+{/* />   */}
+            </div>
+        );
 }
 
 export default ShelterPage;

@@ -47,7 +47,7 @@ const App = () => {
           isLoggedIn={UserContext.loggedIn()}
         />
         <PrivateRoute
-          path="/profil"
+          path="/profile"
           component={ProfilPage}
           isLoggedIn={UserContext.loggedIn()}
         />

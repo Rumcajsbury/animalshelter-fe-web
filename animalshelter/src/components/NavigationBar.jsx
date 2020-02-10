@@ -20,10 +20,8 @@ const NavigationBar = ({ classes, onUserLogOut, isLoggedIn }) => {
     <AppBar position="static" className={classes.root}>
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          <Button color="inherit" component={Link} to={`/`}>
-            {!UserContext.loggedIn() && "ShenAn"}
-            {UserContext.loggedIn() && UserContext.email()}
-          </Button>
+        {!UserContext.loggedIn() && <Button color="inherit" component={Link} to={`/`}>ShenAn</Button>}
+        {UserContext.loggedIn() && <Button color="inherit" component={Link} to={`/profile`}>{UserContext.email()}</Button>}
         </Typography>
         {!UserContext.loggedIn() && (
           <div>
@@ -34,7 +32,7 @@ const NavigationBar = ({ classes, onUserLogOut, isLoggedIn }) => {
         {UserContext.loggedIn() && (
           <div>
             <NavigationButton route="shelters" label="Schroniska" />
-            <NavigationButton route="profil" label="Profil" />
+            {/* <NavigationButton route="profil" label="Profil" /> */}
             {UserContext.userType() === "Admin" &&
             <NavigationButton route="settings" label="Ustawienia" />}
             <NavigationButton
