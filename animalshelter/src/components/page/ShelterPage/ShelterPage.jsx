@@ -50,7 +50,7 @@ const ShelterPage = (props) => {
                     })}
                 </List>
             </Card>
-                {showPopUp && <DonationPopUpForm showModal={showPopUp} closeModal={managePopUp} />}
+                {showPopUp && <DonationPopUpForm showModal={showPopUp} closeModal={managePopUp} shelterId={shelter.id} />}
         {/* //   text='Click "Close Button" to hide popup'  
         //   closePopUp={managePopUp}   */}
 {/* />   */}
