@@ -35,7 +35,8 @@ const NavigationBar = ({ classes, onUserLogOut, isLoggedIn }) => {
           <div>
             <NavigationButton route="shelters" label="Schroniska" />
             <NavigationButton route="profil" label="Profil" />
-            <NavigationButton route="settings" label="Ustawienia" />
+            {UserContext.userType() === "Admin" &&
+            <NavigationButton route="settings" label="Ustawienia" />}
             <NavigationButton
               route="login"
               label="Wyloguj się"

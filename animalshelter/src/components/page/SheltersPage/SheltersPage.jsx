@@ -18,7 +18,6 @@ const SheltersPage = () => {
           });
   },[]);
 
-
   return (
     <Card className="container">
       <h3>Schroniska</h3>

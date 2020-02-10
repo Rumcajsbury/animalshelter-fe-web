@@ -7,7 +7,7 @@ const userContext = {
   },
   userType(){
     if(window.sessionStorage['currentUser'])
-      return JSON.parse(window.sessionStorage.getItem('currentUser')).userType;
+      return JSON.parse(window.sessionStorage.getItem('currentUser')).role;
 
       return null;
   },

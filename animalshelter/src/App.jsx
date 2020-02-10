@@ -14,6 +14,7 @@ import SettingsPage from "./components/page/SettingsPage/SettingPage";
 import UserContext from "./service/UserContext";
 import { useHistory } from "react-router";
 import ShelterPage from "./components/page/ShelterPage/ShelterPage";
+import AnimalPage from "./components/page/AnimalPage";
 
 
 const App = () => {
@@ -50,14 +51,20 @@ const App = () => {
           component={ProfilPage}
           isLoggedIn={UserContext.loggedIn()}
         />
+        {UserContext.userType() === "Admin" &&
         <PrivateRoute
           path="/settings"
           component={SettingsPage}
           isLoggedIn={UserContext.loggedIn()}
-        />
+        />}
         <PrivateRoute
           path="/shelter"
           component={ShelterPage}
+          isLoggedIn={UserContext.loggedIn()}
+        />
+        <PrivateRoute
+          path="/animal"
+          component={AnimalPage}
           isLoggedIn={UserContext.loggedIn()}
         />
 
