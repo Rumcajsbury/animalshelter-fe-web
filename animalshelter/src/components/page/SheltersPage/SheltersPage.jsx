@@ -5,9 +5,7 @@ import List from "@material-ui/core/List";
 import Card from "@material-ui/core/Card";
 
 const SheltersPage = () => {
-  let sheltersArray = [{name: "shelter", adress: "Krakow"}];
-
-  const [shelters, setShelters] = useState(sheltersArray);
+  const [shelters, setShelters] = useState([]);
 
   useEffect(() =>{
       WebService.get("shelters", null,)

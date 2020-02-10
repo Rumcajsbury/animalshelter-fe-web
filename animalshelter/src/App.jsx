@@ -13,6 +13,7 @@ import ProfilPage from "./components/page/ProfilPage/ProfilPage";
 import SettingsPage from "./components/page/SettingsPage/SettingPage";
 import UserContext from "./service/UserContext";
 import { useHistory } from "react-router";
+import ShelterPage from "./components/page/ShelterPage/ShelterPage";
 
 
 const App = () => {
@@ -52,6 +53,11 @@ const App = () => {
         <PrivateRoute
           path="/settings"
           component={SettingsPage}
+          isLoggedIn={UserContext.loggedIn()}
+        />
+        <PrivateRoute
+          path="/shelter"
+          component={ShelterPage}
           isLoggedIn={UserContext.loggedIn()}
         />
 
