@@ -1,7 +1,9 @@
 import WebService from "./WebService";
 
 const DonorPaymentService = {
-  getAllPayments() {},
+  getAllPayments() {
+    return WebService.get('/payment');
+  },
   postOneTimePayment(shelterUserId, amount) {
     return WebService.post("/payment/onetime", {
       shelterUserId: shelterUserId,

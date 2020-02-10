@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import NavbarComponent from "./components/NavigationBar";
@@ -15,10 +15,10 @@ import UserContext from "./service/UserContext";
 import { useHistory } from "react-router";
 import ShelterPage from "./components/page/ShelterPage/ShelterPage";
 import AnimalPage from "./components/page/AnimalPage";
-
+import PaymentsPage from "./components/page/PaymentsPage/PaymentsPages";
 
 const App = () => {
-    const history = useHistory();
+  const history = useHistory();
 
   const [isLoggedIn, setIsLoggedIn] = useState(UserContext.loggedIn());
   const onUserLogOut = () => {
@@ -27,7 +27,7 @@ const App = () => {
   };
   const onUserLogIn = () => {
     setIsLoggedIn(true);
-    history.push('/shelters');
+    history.push("/shelters");
   };
 
   return (
@@ -38,7 +38,7 @@ const App = () => {
         <Route
           exact
           path="/login"
-          component={() =><LoginPage onUserLogIn={onUserLogIn} />}
+          component={() => <LoginPage onUserLogIn={onUserLogIn} />}
         />
         <Route exact path="/register" component={RegisterPage} />
         <PrivateRoute
@@ -51,12 +51,13 @@ const App = () => {
           component={ProfilPage}
           isLoggedIn={UserContext.loggedIn()}
         />
-        {UserContext.userType() === "Admin" &&
-        <PrivateRoute
-          path="/settings"
-          component={SettingsPage}
-          isLoggedIn={UserContext.loggedIn()}
-        />}
+        {UserContext.userType() === "Admin" && (
+          <PrivateRoute
+            path="/settings"
+            component={SettingsPage}
+            isLoggedIn={UserContext.loggedIn()}
+          />
+        )}
         <PrivateRoute
           path="/shelter"
           component={ShelterPage}
@@ -67,11 +68,16 @@ const App = () => {
           component={AnimalPage}
           isLoggedIn={UserContext.loggedIn()}
         />
+        <PrivateRoute
+          path="/payments"
+          component={PaymentsPage}
+          isLoggedIn={UserContext.loggedIn()}
+        />
 
-                <Route component={NotFoundPage}/>
-            </Switch>
-        </div>
-    );
+        <Route component={NotFoundPage} />
+      </Switch>
+    </div>
+  );
 };
 
 export default App;

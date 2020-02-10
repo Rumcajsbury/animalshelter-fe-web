@@ -72,7 +72,7 @@ const DonationPopUpForm = ({
             <option value=""></option>
             <option value="once">Jednorazowo</option>
             <option value="daily">Dziennie</option>
-            <option valye="weekly">Tygodniowo</option>
+            {/* <option valye="weekly">Tygodniowo</option> */}
             <option value="monthly">Miesięcznie</option>
           </Form.Control>
         </Form.Group>
