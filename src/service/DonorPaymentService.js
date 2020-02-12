@@ -7,8 +7,9 @@ const DonorPaymentService = {
   getAllPaymentsHistory() {
     let today = new Date();
     let startDate = new Date(2000, 1, 1, 0,0,0);    
-    let month = startDate.getMonth() + 1;
-    return WebService.get('/payment/history?startDate='+ startDate.getFullYear()+ "-"+ month  +"-" + startDate.getDate() + '&endDate='+ today.getFullYear()+ "-"+ month +"-" + today.getDate());
+    let startMonth = startDate.getMonth()+1;
+    let month = today.getMonth() + 1;
+    return WebService.get('/payment/history?startDate='+ startDate.getFullYear()+ "-"+ startMonth  +"-" + startDate.getDate() + '&endDate='+ today.getFullYear()+ "-"+ month +"-" + today.getDate());
   },
   postOneTimePayment(shelterUserId, amount) {
     return WebService.post("/payment/onetime", {
