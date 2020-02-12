@@ -6,7 +6,7 @@ const DonorPaymentService = {
   },
   getAllPaymentsHistory() {
     let today = new Date();
-    let startDate = new Date(today.getFullYear(), today.getMonth(), 1, 0,0,0);    
+    let startDate = new Date(2000, 1, 1, 0,0,0);    
     let month = startDate.getMonth() + 1;
     return WebService.get('/payment/history?startDate='+ startDate.getFullYear()+ "-"+ month  +"-" + startDate.getDate() + '&endDate='+ today.getFullYear()+ "-"+ month +"-" + today.getDate());
   },

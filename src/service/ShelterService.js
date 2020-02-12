@@ -9,8 +9,10 @@ const ShelterService = {
   },
   getAllPaymentsHistory() {
     let today = new Date();
-    let startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0,0,0);    
-    return WebService.get('/shelters/income?startDate='+ startDate + '&endDate='+ today);
+    let startDate = new Date(2000, 1, 1, 0,0,0);    
+    let startMonth = startDate.getMonth()+1;
+    let month = startDate.getMonth() + 1;
+    return WebService.get('/shelters/income?startDate='+ startDate.getFullYear()+ "-"+ startMonth  +"-" + startDate.getDate() + '&endDate='+ today.getFullYear()+ "-"+ month +"-" + today.getDate());
   },
   getShelters() {
       return WebService.get('/shelters');
