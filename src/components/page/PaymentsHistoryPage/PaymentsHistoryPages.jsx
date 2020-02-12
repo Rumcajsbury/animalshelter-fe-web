@@ -54,7 +54,9 @@ const PaymentsHistoryPage = () => {
                 <td>{i + 1}</td>
                 {UserContext.userType === "Donor" && <td>{payment.shelterUserName}</td>}
                 <td>{payment.amount}</td>
-                <td>{PaymentsDict[payment.paymentType]}</td>
+                {payment.paymentType === 0 && <td>Jednorazowo</td>}
+                {payment.paymentType === 1 && <td>Dziennie</td>}
+                {payment.paymentType === 2 && <td>Miesięcznie</td>}
                 <td>{payment.date}</td>
               </tr>
             );
