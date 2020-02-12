@@ -17,6 +17,7 @@ import ShelterPage from "./components/page/ShelterPage/ShelterPage";
 import AnimalPage from "./components/page/AnimalPage";
 import PaymentsPage from "./components/page/PaymentsPage/PaymentsPages";
 import ShelterProfilePage from "./components/page/ShelterProfile/ShelterProfilePage";
+import PaymentsHistoryPage from "./components/page/PaymentsHistoryPage/PaymentsHistoryPages";
 
 const App = () => {
   const history = useHistory();
@@ -70,6 +71,11 @@ const App = () => {
           path="/shelter"
           component={ShelterPage}
           isLoggedIn={UserContext.loggedIn()}
+        />
+        <PrivateRoute
+        path="/history"
+        component={PaymentsHistoryPage}
+        isLoggedIn={UserContext.loggedIn()}
         />
         <PrivateRoute
           path="/animal"

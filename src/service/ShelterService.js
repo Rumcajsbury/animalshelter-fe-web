@@ -7,6 +7,11 @@ const ShelterService = {
   putUpdateShelter(data) {
     return WebService.put('/shelters', data)
   },
+  getAllPaymentsHistory() {
+    let today = new Date();
+    let startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0,0,0);    
+    return WebService.get('/shelters/income?startDate='+ startDate + '&endDate='+ today);
+  },
   getShelters() {
       return WebService.get('/shelters');
   },
