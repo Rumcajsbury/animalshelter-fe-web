@@ -18,7 +18,7 @@ import Select from "@material-ui/core/Select";
 //logic
 import jwt_decode from "jwt-decode";
 
-import WebService from '../../service/WebService'
+import WebService from "../../service/WebService";
 
 const styles = theme => ({
   paper: {
@@ -42,6 +42,7 @@ const styles = theme => ({
 });
 
 const RegisterPage = ({ classes }) => {
+  const history = useHistory();
   const [registerUser, setRegisterUser] = new useState({
     email: "",
     password: "",
@@ -58,45 +59,33 @@ const RegisterPage = ({ classes }) => {
 
   const register = e => {
     e.preventDefault();
-    if(registerUser.userType === "Donor"){
+    if (registerUser.userType === "Donor") {
       DonorService.postRegisterDonor({
         email: registerUser.email,
         password: registerUser.password
       })
         .then(response => {
-          WebService.post("auth", {
-            email: registerUser.email,
-            password: registerUser.password,
-            userType: registerUser.userType
-          })
-            .then(function(response) {
-              window.localStorage.setItem("token", response.data.token);
-              window.sessionStorage.setItem("currentUser", JSON.stringify(jwt_decode(response.data.token)));
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-          //add login
-          //add redirect
+          console.log("succesRegister");
+          history.push("/login");
         })
-        .catch(error => {
+        .catch(function(error) {
           console.log(error);
         });
     }
-    if(registerUser.userType === "ShelterUser"){
+
+    if (registerUser.userType === "Shelter") {
       DonorService.postRegisterDonor({
         email: registerUser.email,
         password: registerUser.password
       })
         .then(response => {
-          //add login
-          //add redirect
+          console.log("succesRegister");
+          history.push("/login");
         })
-        .catch(error => {
+        .catch(function(error) {
           console.log(error);
         });
     }
-   
   };
 
   return (
@@ -144,7 +133,7 @@ const RegisterPage = ({ classes }) => {
                   onChange={handleChange}
                 >
                   <MenuItem value="Donor">Darczyńca</MenuItem>
-                  <MenuItem value="ShelterUser">Schronisko</MenuItem>
+                  <MenuItem value="Shelter">Schronisko</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
