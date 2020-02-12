@@ -21,7 +21,8 @@ const NavigationBar = ({ classes, onUserLogOut, isLoggedIn }) => {
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
         {!UserContext.loggedIn() && <Button color="inherit" component={Link} to={`/`}>ShenAn</Button>}
-        {UserContext.loggedIn() && <Button color="inherit" component={Link} to={`/profile`}>{UserContext.email()}</Button>}
+        {(UserContext.loggedIn() && UserContext.userType() === "Donor") && <Button color="inherit" component={Link} to={`/profile`}>{UserContext.email()}</Button>}
+        {(UserContext.loggedIn() && UserContext.userType() === "Shelter") && <Button color="inherit" component={Link} to={`/shelterProfile`}>{UserContext.email()}</Button>}
         </Typography>
         {!UserContext.loggedIn() && (
           <div>
@@ -32,7 +33,7 @@ const NavigationBar = ({ classes, onUserLogOut, isLoggedIn }) => {
         {UserContext.loggedIn() && (
           <div>
             <NavigationButton route="shelters" label="Schroniska" />
-            <NavigationButton route="payments" label="Płatności" />
+            {UserContext.userType() === "Donor" && <NavigationButton route="payments" label="Płatności" />}
             {UserContext.userType() === "Admin" &&
             <NavigationButton route="settings" label="Ustawienia" />}
             <NavigationButton

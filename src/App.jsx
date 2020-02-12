@@ -16,6 +16,7 @@ import { useHistory } from "react-router";
 import ShelterPage from "./components/page/ShelterPage/ShelterPage";
 import AnimalPage from "./components/page/AnimalPage";
 import PaymentsPage from "./components/page/PaymentsPage/PaymentsPages";
+import ShelterProfilePage from "./components/page/ShelterProfile/ShelterProfilePage";
 
 const App = () => {
   const history = useHistory();
@@ -46,11 +47,18 @@ const App = () => {
           component={SheltersPage}
           isLoggedIn={UserContext.loggedIn()}
         />
+        {UserContext.userType() === "Donor" &&
         <PrivateRoute
           path="/profile"
           component={ProfilPage}
           isLoggedIn={UserContext.loggedIn()}
-        />
+        />}
+        {UserContext.userType() === "Shelter" &&
+        <PrivateRoute
+          path="/shelterProfile"
+          component={ShelterProfilePage}
+          isLoggedIn={UserContext.loggedIn()}
+        />}
         {UserContext.userType() === "Admin" && (
           <PrivateRoute
             path="/settings"

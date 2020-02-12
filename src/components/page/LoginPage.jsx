@@ -114,7 +114,7 @@ const LoginPage = ({classes, onUserLogIn}) => {
                 <Select value={user.userType} onChange={handleUserTypeChange}>
                   <MenuItem value="Admin">Admin</MenuItem>
                   <MenuItem value="Donor">Darczyńca</MenuItem>
-                  <MenuItem value="ShelterUser">Użytkownik schroniska</MenuItem>
+                  <MenuItem value="Shelter">Użytkownik schroniska</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
