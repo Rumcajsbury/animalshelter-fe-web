@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { PublicTwoTone } from "@material-ui/icons";
 
 const BASE_URL = "https://shenan-d-euw-api-svc.azurewebsites.net/";
 const WebService = {

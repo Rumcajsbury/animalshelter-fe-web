@@ -4,19 +4,17 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import NavigationButton from "../common/NavigationButton";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import jwt_decode from "jwt-decode";
 import { useHistory } from "react-router";
-
+//logic
+import UserContext from "../../service/UserContext";
 
 const styles = theme => ({
   paper: {
@@ -39,14 +37,13 @@ const styles = theme => ({
   }
 });
 
-const LoginPage = ({classes, onUserLogIn}) => {
+const LoginPage = ({ classes, onUserLogIn }) => {
   const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
     userType: ""
   });
-
 
   const handleEmailChange = ({ target }) =>
     setUser({ ...user, email: target.value });
@@ -64,8 +61,16 @@ const LoginPage = ({classes, onUserLogIn}) => {
     })
       .then(function(response) {
         window.localStorage.setItem("token", response.data.token);
-        window.sessionStorage.setItem("currentUser", JSON.stringify(jwt_decode(response.data.token)));
-        history.push('/shelters')
+        window.sessionStorage.setItem(
+          "currentUser",
+          JSON.stringify(jwt_decode(response.data.token))
+        );
+        if (UserContext.userType() === "Donor") {
+          history.push("/shelters");
+        }
+        if (UserContext.userType() === "Shelter") {
+          history.push("/yourShelter");
+        }
       })
       .catch(function(error) {
         console.log(error);
