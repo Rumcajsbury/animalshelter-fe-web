@@ -4,8 +4,6 @@ import { useHistory } from "react-router";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import NavigationButton from "../common/NavigationButton";
@@ -16,9 +14,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 //logic
-import jwt_decode from "jwt-decode";
-
-import WebService from "../../service/WebService";
 
 const styles = theme => ({
   paper: {

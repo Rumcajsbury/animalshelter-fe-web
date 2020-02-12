@@ -25,6 +25,9 @@ const ShelterService = {
   },
   getShelterIncomes(){
     return WebService.post('/shelters/income');
+  },
+  getShelterDetails(){
+    return WebService.get('/shelters/details');
   }
 };
 

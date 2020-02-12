@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import UserContext from "../../../service/UserContext";
 import {Home} from "@material-ui/icons";
 import ListItem from "@material-ui/core/ListItem";
@@ -7,7 +7,6 @@ import Avatar from "@material-ui/core/Avatar";
 import {Button} from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
 import {Link} from "react-router-dom";
-import DonationPopUpForm from "../../common/DontaionPopUpForm";
 
 const SheltersRow = ({shelter, index}) => {
     let edit;
