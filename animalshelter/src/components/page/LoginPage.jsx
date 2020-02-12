@@ -40,6 +40,7 @@ const styles = theme => ({
 });
 
 const LoginPage = ({classes, onUserLogIn}) => {
+  const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -64,7 +65,7 @@ const LoginPage = ({classes, onUserLogIn}) => {
       .then(function(response) {
         window.localStorage.setItem("token", response.data.token);
         window.sessionStorage.setItem("currentUser", JSON.stringify(jwt_decode(response.data.token)));
-        onUserLogIn();
+        history.push('/shelters')
       })
       .catch(function(error) {
         console.log(error);
@@ -75,7 +76,7 @@ const LoginPage = ({classes, onUserLogIn}) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <h1>Login</h1>
+        <h1>Zaloguj się</h1>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -127,13 +128,13 @@ const LoginPage = ({classes, onUserLogIn}) => {
             className={classes.submit}
             onClick={e => login(e)}
           >
-            Login
+            Zaloguj
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
               <NavigationButton
                 route="register"
-                label="Don't have an account? Register here"
+                label="Nie masz konta? Zarejestruj się tutaj"
               />
             </Grid>
           </Grid>

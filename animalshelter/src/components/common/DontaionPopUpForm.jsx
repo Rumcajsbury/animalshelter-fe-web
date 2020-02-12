@@ -26,6 +26,7 @@ const DonationPopUpForm = ({
     if (paymentOptions.paymentType === "once") {
       DonorPaymentService.postOneTimePayment(shelterId, paymentOptions.amount)
         .then(response => {
+          console.log("onetime");
           console.log(response);
           closeModal();
         })
@@ -48,7 +49,6 @@ const DonationPopUpForm = ({
         });
     }
   };
-  console.log(paymentOptions);
 
   return (
     <Modal show={showModal} onHide={closeModal}>
@@ -72,7 +72,6 @@ const DonationPopUpForm = ({
             <option value=""></option>
             <option value="once">Jednorazowo</option>
             <option value="daily">Dziennie</option>
-            {/* <option valye="weekly">Tygodniowo</option> */}
             <option value="monthly">Miesięcznie</option>
           </Form.Control>
         </Form.Group>

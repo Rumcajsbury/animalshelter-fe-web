@@ -1,129 +1,173 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+//styles
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
 import NavigationButton from "../common/NavigationButton";
-import WebService from "../../service/WebService";
+import DonorService from "../../service/DonorService";
 import withStyles from "@material-ui/core/styles/withStyles";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+//logic
+import jwt_decode from "jwt-decode";
+
+import WebService from '../../service/WebService'
 
 const styles = theme => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    width: "100%"
+  }
 });
 
-class RegisterPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: ""
-        };
+const RegisterPage = ({ classes }) => {
+  const [registerUser, setRegisterUser] = new useState({
+    email: "",
+    password: "",
+    krSnumber: "",
+    description: "",
+    userType: ""
+  });
+  // const [userType, setUserType] = useState("");
 
-        this.register = this.register.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    }
+  const handleChange = ({ target: { value, name } }) => {
+    console.log(`${value + name}`);
+    setRegisterUser({ ...registerUser, [name]: value });
+  };
 
-    handleEmailChange(event) {
-        this.setState({email: event.target.value});
-    }
-
-    handlePasswordChange(event) {
-        this.setState({password: event.target.value});
-    }
-
-    register(e) {
-        e.preventDefault();
-        WebService
-            .post('/donor/register', {
-                email: this.state.email,
-                password: this.state.password
+  const register = e => {
+    e.preventDefault();
+    if(registerUser.userType === "Donor"){
+      DonorService.postRegisterDonor({
+        email: registerUser.email,
+        password: registerUser.password
+      })
+        .then(response => {
+          WebService.post("auth", {
+            email: registerUser.email,
+            password: registerUser.password,
+            userType: registerUser.userType
+          })
+            .then(function(response) {
+              window.localStorage.setItem("token", response.data.token);
+              window.sessionStorage.setItem("currentUser", JSON.stringify(jwt_decode(response.data.token)));
             })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
+            .catch(function(error) {
+              console.log(error);
             });
+          //add login
+          //add redirect
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
+    if(registerUser.userType === "ShelterUser"){
+      DonorService.postRegisterDonor({
+        email: registerUser.email,
+        password: registerUser.password
+      })
+        .then(response => {
+          //add login
+          //add redirect
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+   
+  };
 
-    render() {
-        const {classes} = this.props;
-        return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline/>
-                <div className={classes.paper}>
-                    <h1>Register as donor</h1>
-                    <form className={classes.form} noValidate>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    value={this.state.email}
-                                    onChange={this.handleEmailChange}
-                                    name="email"
-                                    autoComplete="email"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    value={this.state.password}
-                                    onChange={this.handlePasswordChange}
-                                    autoComplete="current-password"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary"/>}
-                                    label="I consent to all stuff."
-                                />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                            onClick={(e) => this.register(e)}>
-                            Sign Up
-                        </Button>
-                        <Grid container justify="flex-end">
-                            <Grid item>
-                                <NavigationButton route="login" label="Already have an account?"/>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </div>
-            </Container>
-        );
-    }
-}
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <h1>Zarejestruj się</h1>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                value={registerUser.email}
+                onChange={handleChange}
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={registerUser.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl variant="filled" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-filled-label">
+                  Rola
+                </InputLabel>
+                <Select
+                  name="userType"
+                  value={registerUser.userType}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="Donor">Darczyńca</MenuItem>
+                  <MenuItem value="ShelterUser">Schronisko</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={e => register(e)}
+          >
+            Zarejestruj się
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <NavigationButton route="login" label="Posiadasz już konot?" />
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </Container>
+  );
+};
 
 export default withStyles(styles)(RegisterPage);
