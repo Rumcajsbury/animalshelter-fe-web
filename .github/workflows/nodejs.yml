@@ -1,6 +1,8 @@
 name: Node.js CI
 
-on: [push]
+on: 
+  push:
+    branches: [master]
 
 jobs:
   build:
@@ -21,3 +23,16 @@ jobs:
     - run: CI=false npm run build
       env:
         CI: true
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: feeloor/azure-static-website-deploy@master
+        env:
+          SOURCE_DIR: "./public"
+          AZURE_CLIENT_ID: "58f34f98-ba53-4c56-a420-a78eb10257b9"
+          AZURE_TENANT_ID: "7c458e45-55a5-4c84-8e90-9dbfb9960a4c"
+          AZURE_SECRET: "s2alm0v2h8[KRKguop=YFSY/GheTDiq?"
+          AZURE_SUBSCRIPTION_ID: "c61472eb-b090-4922-a356-b8d2c71e3084"
+          AZURE_STORAGE_ACCOUNT_NAME: "shenandeuwstg"
+          AZURE_INDEX_DOCUMENT_NAME: "index.html"
