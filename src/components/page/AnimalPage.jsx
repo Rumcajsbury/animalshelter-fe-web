@@ -6,6 +6,7 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 //logic
 import AnimalService from "../../service/AnimalService";
+import UserContext from "../../service/UserContext";
 
 const AnimalPage = ({ location }) => {
   const [animal, setAnimal] = useState(location.state.animal);
@@ -22,17 +23,22 @@ const AnimalPage = ({ location }) => {
     })
       .then(response => console.log(response))
       .catch(error => console.log(error));
-      console.log(updateAnimal)
+    console.log(updateAnimal);
     setAnimal(updateAnimal);
   };
+  console.log(UserContext.userType());
   return (
     <>
       <Card className="container">
         <h3>{animal?.name}</h3>
-        <Button style={{ float: "right" }} onClick={managePopUp}>
-          Edytuj zwierzę
-        </Button>
-        <Button style={{ float: "right" }}>Dodaj zdjęcie</Button>
+        {UserContext.userType() === "Shelter" && (
+          <Button style={{ float: "right" }} onClick={managePopUp}>
+            Edytuj zwierzę
+          </Button>
+        )}
+        {UserContext.userType() === "Shelter" && (
+          <Button style={{ float: "right" }}>Dodaj zdjęcie</Button>
+        )}
         <h6>Age: {animal?.age}</h6>
         <h6>{animal?.description}</h6>
         {animal.images?.map(img => (
