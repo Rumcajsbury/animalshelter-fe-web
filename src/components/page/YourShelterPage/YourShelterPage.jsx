@@ -69,6 +69,9 @@ const YourShelterPage = () => {
         console.log(data);
     };
 
+    
+
+
     return (
         <>
             <Container>
@@ -91,7 +94,7 @@ const YourShelterPage = () => {
                                 to={{
                                     pathname: "/animal",
                                     state: {
-                                        animal: animal
+                                        animal: animal,
                                     }
                                 }}
                             >
