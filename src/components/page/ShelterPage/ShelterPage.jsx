@@ -41,9 +41,14 @@ const ShelterPage = (props) => {
                         }}
                         >
                             <ListItemAvatar>
-                                <Avatar>
-                                    <Pets/>
-                                </Avatar>
+                                {(animal.images.length !== 0) && (
+                                    <Avatar src={animal.images[0].path}/>
+                                )}
+                                {(animal.images.length === 0) && (
+                                    <Avatar>
+                                        <Pets/>
+                                    </Avatar>
+                                )}
                             </ListItemAvatar>
                             <ListItemText primary={animal.name} secondary={animal.description}/>
                         </ListItem>;
@@ -51,9 +56,6 @@ const ShelterPage = (props) => {
                 </List>
             </Card>
                 {showPopUp && <DonationPopUpForm showModal={showPopUp} closeModal={managePopUp} shelterId={shelter.id} />}
-        {/* //   text='Click "Close Button" to hide popup'  
-        //   closePopUp={managePopUp}   */}
-{/* />   */}
             </div>
         );
 }
