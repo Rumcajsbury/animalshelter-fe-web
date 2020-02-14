@@ -3,16 +3,19 @@ import Axios from "axios";
 const BASE_URL = "https://shenan-d-euw-api-svc.azurewebsites.net/";
 const WebService = {
   config() {
-    let headers = {
+    return {
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem("token")}`
       }
     };
-    return headers;
   },
 
   post(url, data) {
     return Axios.post(BASE_URL + url, data, this.config());
+  },
+
+  postWithHeaders(url, data, headers) {
+    return Axios.post(BASE_URL + url, data, headers);
   },
 
   get(url) {

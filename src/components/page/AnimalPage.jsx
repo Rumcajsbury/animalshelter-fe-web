@@ -8,18 +8,21 @@ import Button from "react-bootstrap/Button";
 //logic
 import AnimalService from "../../service/AnimalService";
 import UserContext from "../../service/UserContext";
+import AddPhotoPopupForm from "../common/AddPhotoPopupForm";
+import ShelterService from "../../service/ShelterService";
 
 const AnimalPage = ({ location }) => {
-  const [animal, setAnimal] = useState(location.state.animal);
+  const [animal, setAnimal] = useState(location);
   const [showPopUp, setShowPopUp] = useState(false);
-  const [addPhotoPopUp, setAddPhotoPopUp] = useState(false);
-
+  const [showPhotoPopUp, setShowPhotoPopUp] = useState(false);
   const managePopUp = () => {
     setShowPopUp(!showPopUp);
   };
-  const manageAddPhotoPopUp = () => {
-    setAddPhotoPopUp(!addPhotoPopUp);
+
+  const managePhotoPopUp = () => {
+    setShowPhotoPopUp(!showPhotoPopUp);
   };
+
   const saveAnimalChanges = updateAnimal => {
     AnimalService.putUpdateAnimal({
       name: updateAnimal.name,
@@ -32,43 +35,53 @@ const AnimalPage = ({ location }) => {
     console.log(updateAnimal);
     setAnimal(updateAnimal);
   };
-  console.log(location.state)
-  console.log(UserContext.userType());
+
+  const sendAnimalPhoto = (photo) => {
+    const data = new FormData();
+    data.append('FormFile', photo.file);
+    data.append("AnimalId", location.state.animal.id);
+    AnimalService.postAnimalImage(data)
+        .then(response => {
+          console.log(response);
+          managePhotoPopUp();
+        })
+        .catch(error => console.log(error));
+  };
+
+  console.log(animal)
+
   return (
     <>
       <Card className="container">
-        <h3>{animal?.name}</h3>
+        <h3>{animal.state.animal?.name}</h3>
         {UserContext.userType() === "Shelter" && (
-          <>
-            <Button style={{ float: "right" }}>Dodaj zdjęcie</Button>
-            <Button style={{ float: "right" }} variant="primary">
-            {/* <Button style={{ float: "right" }} variant="primary" onClick={location.state.deleteAnimal(animal.id)}> */}
-              Usuń
-            </Button>
-            <Button style={{ float: "right" }} onClick={managePopUp}>
-              Edytuj zwierzę
-            </Button>
-          </>
+          <Button style={{ float: "right" }} onClick={managePopUp}>
+            Edytuj zwierzę
+          </Button>
         )}
-        <h6>Age: {animal?.age}</h6>
-        <h6>{animal?.description}</h6>
-        {animal.images?.map(img => (
-          <Image src={img} thumbnail />
+        {UserContext.userType() === "Shelter" && (
+          <Button style={{ float: "right" }} onClick={managePhotoPopUp}>Dodaj zdjęcie</Button>
+        )}
+        <h6>Age: {animal.state.animal?.age}</h6>
+        <h6>{animal.state.animal?.description}</h6>
+        {animal.state.animal.images?.map(img => (
+          <Image width={100} src={img.path} thumbnail />
         ))}
       </Card>
       {showPopUp && (
         <EditAnimalPopUpForm
           showModal={showPopUp}
           closeModal={managePopUp}
-          animal={animal}
+          animal={animal.state.animal}
           saveAnimal={saveAnimalChanges}
         />
       )}
-      {addPhotoPopUp && (
-        <AddPhotoComponent
-          managePopUp={manageAddPhotoPopUp}
-          showModal={addPhotoPopUp}
-        />
+      {showPhotoPopUp && (
+          <AddPhotoPopupForm
+              showModal={showPhotoPopUp}
+              closeModal={managePhotoPopUp}
+              sendPhoto={sendAnimalPhoto}
+          />
       )}
     </>
   );
