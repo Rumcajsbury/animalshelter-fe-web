@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 //logic
 import DonorPaymentService from "../../../service/DonorPaymentService";
 import PaymentsDict from "../../../helpers/PaymentsDictionary";
@@ -19,6 +20,17 @@ const PaymentsPage = () => {
         console.log(error);
       });
   }, []);
+
+  const removePayment = paymentId => {
+    DonorPaymentService.deleteRemovePayment(paymentId)
+      .then(response => {
+        let array = [...payments];
+        let index = array.findIndex((item) => item.id === paymentId)
+        array.splice(index, 1)
+        setPayments(array.splice(index, 1));
+      })
+      .catch(error => console.log(error));
+  };
   return (
     <Container>
       <h2>
@@ -31,6 +43,7 @@ const PaymentsPage = () => {
             <th>Schronisko</th>
             <th>Kwota(PLN)</th>
             <th>Rodzaj wpłaty</th>
+            <th>Usuń wpłaty</th>
           </tr>
         </thead>
         <tbody>
@@ -41,6 +54,9 @@ const PaymentsPage = () => {
                 <td>{payment.shelterUser.ownerName}</td>
                 <td>{payment.amount}</td>
                 <td>{PaymentsDict[payment.paymentType]}</td>
+                <td>
+                  <Button variant="primary" onClick={() =>removePayment(payment.id)}>Anuluj</Button>
+                </td>
               </tr>
             );
           })}

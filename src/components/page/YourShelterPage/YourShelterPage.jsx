@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import EditAnimalPopUpForm from "../../common/EditAnimalPopUpForm" ;
+import EditAnimalPopUpForm from "../../common/EditAnimalPopUpForm";
+import AddPhotoComponent from "../../common/AddPhotoComponent";
 import WebService from "../../../service/WebService";
 import Card from "@material-ui/core/Card";
 import List from "@material-ui/core/List";
-import Button from 'react-bootstrap/Button';
-import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import { Link, useHistory } from "react-router-dom";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import { Home, Pets } from "@material-ui/icons";
@@ -24,9 +25,15 @@ const YourShelterPage = () => {
   const [shelter, setShelter] = useState();
   const [animals, setAnimals] = useState([]);
   const [showPopUp, setShowPopUp] = useState(false);
+  const [addPhotoPopUp, setAddPhotoPopUp] = useState(false);
+  const hstory = useHistory();
   const managePopUp = () => {
     setShowPopUp(!showPopUp);
   };
+  const manageAddPhotoPopUp = () => {
+    setAddPhotoPopUp(!addPhotoPopUp);
+  };
+
   useEffect(() => {
     AnimalsService.getAnimals()
       .then(({ data }) => {
@@ -42,66 +49,96 @@ const YourShelterPage = () => {
       .catch(error => console.log(error));
   }, []);
 
-  const addAnimal = (newAnimal) =>{
+  const addAnimal = newAnimal => {
     const animalToAdd = {
       name: newAnimal.name,
       age: newAnimal.age,
       description: newAnimal.description,
       active: true
-    }
-    AnimalService.postAddAnimal(animalToAdd).then(response => console.log(response)).catch(error => console.log(error))
+    };
+    AnimalService.postAddAnimal(animalToAdd)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
     setAnimals([animalToAdd, ...animals]);
-  }
+  };
+
+  const deleteAnimal = animalId => {
+    AnimalService.deleteRemoveAnimal(animalId)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => console.log(err));
+  };
 
   return (
     <>
-    <Container>
-      <h2>
-        <Badge variant="secondary">
-          Twoje schronisko: {shelter?.ownerName}
-        </Badge>
-        <Button style={{float: "right"}} color="primary">Dodaj zdjęcie</Button>
-        <Button style={{float: "right"}} color="primary" onClick={managePopUp}>Dodaj zwierzę</Button>
-      </h2>
-      <h6>{shelter?.description}</h6>
-      <img src={shelter?.mainPhoto} alt="mainPhoto" />
-      <List>
-        {animals.map((animal, i) => {
-          return (
-            <ListItem
-            key={i}
-              button
-              component={Link}
-              to={{
-                pathname: "/animal",
-                state: {
-                  animal: animal
-                }
-              }}
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <Pets />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={animal.name}
-                secondary={animal.description}
-              />
-            </ListItem>
-          );
-        })}
-      </List>
-    </Container>
-    {showPopUp && (
-      <EditAnimalPopUpForm
-        showModal={showPopUp}
-        closeModal={managePopUp}
-        animal={{}}
-        saveAnimal={addAnimal}
-        addAnimal={true}
-      />
-    )}
+      <Container>
+        <h2>
+          <Badge variant="secondary">
+            Twoje schronisko: {shelter?.ownerName}
+          </Badge>
+          <Button
+            style={{ float: "right" }}
+            color="primary"
+            onClick={manageAddPhotoPopUp}
+          >
+            Dodaj zdjęcie
+          </Button>
+          <Button
+            style={{ float: "right" }}
+            color="primary"
+            onClick={managePopUp}
+          >
+            Dodaj zwierzę
+          </Button>
+        </h2>
+        <h6>{shelter?.description}</h6>
+        <img src={shelter?.mainPhoto} alt="mainPhoto" />
+        <List>
+          {animals.map((animal, i) => {
+            console.log(animal);
+            return (
+              <ListItem
+                key={i}
+                button
+                component={Link}
+                to={{
+                  pathname: "/animal",
+                  state: {
+                    animal: animal,
+                    // deleteAnimal: deleteAnimal
+                  }
+                }}
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <Pets />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={animal.name}
+                  secondary={animal.description}
+                />
+              </ListItem>
+            );
+          })}
+        </List>
+      </Container>
+      {showPopUp && (
+        <EditAnimalPopUpForm
+          showModal={showPopUp}
+          closeModal={managePopUp}
+          animal={{}}
+          saveAnimal={addAnimal}
+          addAnimal={true}
+        />
+      )}
+      {addPhotoPopUp && (
+        <AddPhotoComponent
+          managePopUp={manageAddPhotoPopUp}
+          showModal={addPhotoPopUp}
+        />
+      )}
     </>
   );
 };

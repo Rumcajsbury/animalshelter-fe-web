@@ -18,6 +18,9 @@ const AnimalService = {
   },
   getAnimalsByShelterId(shelterId) {
     return WebService.get(`/animals/${shelterId}`);
+  },
+  deleteRemoveAnimal(animalId){
+    return WebService.delete(`/animals/${animalId}`);
   }
 };
 

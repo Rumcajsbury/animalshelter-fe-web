@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import EditAnimalPopUpForm from "../common/EditAnimalPopUpForm";
+import AddPhotoComponent from "../common/AddPhotoComponent";
 //styles
 import Card from "@material-ui/core/Card";
 import Image from "react-bootstrap/Image";
@@ -11,8 +12,13 @@ import UserContext from "../../service/UserContext";
 const AnimalPage = ({ location }) => {
   const [animal, setAnimal] = useState(location.state.animal);
   const [showPopUp, setShowPopUp] = useState(false);
+  const [addPhotoPopUp, setAddPhotoPopUp] = useState(false);
+
   const managePopUp = () => {
     setShowPopUp(!showPopUp);
+  };
+  const manageAddPhotoPopUp = () => {
+    setAddPhotoPopUp(!addPhotoPopUp);
   };
   const saveAnimalChanges = updateAnimal => {
     AnimalService.putUpdateAnimal({
@@ -26,18 +32,23 @@ const AnimalPage = ({ location }) => {
     console.log(updateAnimal);
     setAnimal(updateAnimal);
   };
+  console.log(location.state)
   console.log(UserContext.userType());
   return (
     <>
       <Card className="container">
         <h3>{animal?.name}</h3>
         {UserContext.userType() === "Shelter" && (
-          <Button style={{ float: "right" }} onClick={managePopUp}>
-            Edytuj zwierzę
-          </Button>
-        )}
-        {UserContext.userType() === "Shelter" && (
-          <Button style={{ float: "right" }}>Dodaj zdjęcie</Button>
+          <>
+            <Button style={{ float: "right" }}>Dodaj zdjęcie</Button>
+            <Button style={{ float: "right" }} variant="primary">
+            {/* <Button style={{ float: "right" }} variant="primary" onClick={location.state.deleteAnimal(animal.id)}> */}
+              Usuń
+            </Button>
+            <Button style={{ float: "right" }} onClick={managePopUp}>
+              Edytuj zwierzę
+            </Button>
+          </>
         )}
         <h6>Age: {animal?.age}</h6>
         <h6>{animal?.description}</h6>
@@ -51,6 +62,12 @@ const AnimalPage = ({ location }) => {
           closeModal={managePopUp}
           animal={animal}
           saveAnimal={saveAnimalChanges}
+        />
+      )}
+      {addPhotoPopUp && (
+        <AddPhotoComponent
+          managePopUp={manageAddPhotoPopUp}
+          showModal={addPhotoPopUp}
         />
       )}
     </>

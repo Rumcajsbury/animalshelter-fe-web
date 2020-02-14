@@ -21,6 +21,10 @@ const WebService = {
 
   put(url, data) {
     return Axios.put(BASE_URL + url, data, this.config());
+  },
+
+  delete(url) {
+    return Axios.delete(BASE_URL + url, this.config());
   }
 };
 
