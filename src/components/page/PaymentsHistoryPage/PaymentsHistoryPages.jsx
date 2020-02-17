@@ -41,7 +41,7 @@ const PaymentsHistoryPage = () => {
         <thead>
           <tr>
             <th>#</th>
-            {UserContext.userType === "Donor" && <th>Schronisko</th>}
+            {UserContext.userType() === "Donor" && <th>Schronisko</th>}
             <th>Kwota(PLN)</th>
             <th>Rodzaj wpłaty</th>
             <th>Data wpłaty</th>
@@ -52,7 +52,7 @@ const PaymentsHistoryPage = () => {
             return (
               <tr>
                 <td>{i + 1}</td>
-                {UserContext.userType === "Donor" && <td>{payment.shelterUserName}</td>}
+                {UserContext.userType() === "Donor" && <td>{payment.shelterUserName}</td>}
                 <td>{payment.amount}</td>
                 {payment.paymentType === 0 && <td>Jednorazowo</td>}
                 {payment.paymentType === 1 && <td>Dziennie</td>}
