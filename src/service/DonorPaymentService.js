@@ -23,7 +23,11 @@ const DonorPaymentService = {
       dayOfMonth: dayOfMonth,
       amount: amount
     });
+  },
+  deleteRemovePayment(paymentId){
+    return WebService.delete(`payment/${paymentId}`);
   }
+
 };
 
 export default DonorPaymentService;

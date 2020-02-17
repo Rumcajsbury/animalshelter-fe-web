@@ -1,6 +1,6 @@
 import React from "react";
 import UserContext from "../../../service/UserContext";
-import {Home} from "@material-ui/icons";
+import {Home, Pets} from "@material-ui/icons";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
@@ -23,9 +23,14 @@ const SheltersRow = ({shelter, index}) => {
         }}
         >
             <ListItemAvatar>
-                <Avatar>
-                    <Home/>
-                </Avatar>
+                {(shelter.mainPhoto !== "") && (
+                    <Avatar src={shelter.mainPhoto}/>
+                )}
+                {(shelter.mainPhoto === "") && (
+                    <Avatar>
+                        <Home/>
+                    </Avatar>
+                )}
             </ListItemAvatar>
             <ListItemText primary={shelter.ownerName} secondary={shelter.description}/>
             <ListItemText primary={shelter.city + " " + shelter.street + " " + shelter.buildingNumber}/>

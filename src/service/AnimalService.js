@@ -10,14 +10,23 @@ const AnimalService = {
   getAnimals() {
     return WebService.get("/animals");
   },
-  postAnimalImage() {
-    return WebService.post("animals/image");
+  postAnimalImage(data) {
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        'Content-Type': "multipart/form-data"
+      }
+    };
+    return WebService.postWithHeaders("animals/image", data, headers);
   },
   patchActivateAnimal() {
     //to implement
   },
   getAnimalsByShelterId(shelterId) {
     return WebService.get(`/animals/${shelterId}`);
+  },
+  deleteRemoveAnimal(animalId){
+    return WebService.delete(`/animals/${animalId}`);
   }
 };
 
