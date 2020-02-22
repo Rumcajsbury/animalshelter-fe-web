@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 //styles
-import Badge from "react-bootstrap/Badge";
-import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+
+import TableContainer from "@material-ui/core/TableContainer";
+import Badge from "@material-ui/core/Badge";
 //logic
 import DonorPaymentService from "../../../service/DonorPaymentService";
 import PaymentsDict from "../../../helpers/PaymentsDictionary";
+import { TableBody, TableRow, TableCell, TableHead, Table } from "@material-ui/core";
 
 const PaymentsPage = () => {
   const [payments, setPayments] = useState([]);
@@ -34,34 +36,36 @@ const PaymentsPage = () => {
   return (
     <Container>
       <h2>
-        <Badge variant="secondary">Twoje płatności</Badge>
+        <Badge variant="standard">Twoje płatności</Badge>
       </h2>
+      <TableContainer>
       <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Schronisko</th>
-            <th>Kwota(PLN)</th>
-            <th>Rodzaj wpłaty</th>
-            <th>Usuń wpłaty</th>
-          </tr>
-        </thead>
-        <tbody>
+      <TableHead>
+          <TableRow>
+            <TableCell>#</TableCell>
+            <TableCell align="left">Schronisko</TableCell>
+            <TableCell align="left">Wartość</TableCell>
+            <TableCell align="left">Typ</TableCell>
+            <TableCell align="left">Akcje</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {payments.map((payment, i) => {
             return (
-              <tr>
-                <td>{i + 1}</td>
-                <td>{payment.shelterUser.ownerName}</td>
-                <td>{payment.amount}</td>
-                <td>{PaymentsDict[payment.paymentType]}</td>
-                <td>
-                  <Button variant="primary" onClick={() =>removePayment(payment.id)}>Anuluj</Button>
-                </td>
-              </tr>
+              <TableRow key={payment.id}>
+                <TableCell>{i + 1}</TableCell>
+                <TableCell>{payment.shelterUser.ownerName}</TableCell>
+                <TableCell>{payment.amount}</TableCell>
+                <TableCell>{PaymentsDict[payment.paymentType]}</TableCell>
+                <TableCell>
+                  <Button variant="contained" onClick={() =>removePayment(payment.id)}>Anuluj</Button>
+                </TableCell>
+              </TableRow>
             );
           })}
-        </tbody>
+        </TableBody>
       </Table>
+      </TableContainer>
     </Container>
   );
 };
