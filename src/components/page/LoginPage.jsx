@@ -15,6 +15,7 @@ import jwt_decode from "jwt-decode";
 import { useHistory } from "react-router";
 //logic
 import UserContext from "../../service/UserContext";
+import ToastrService from "../../service/ToastrService";
 
 const styles = theme => ({
   paper: {
@@ -73,6 +74,7 @@ const LoginPage = ({ classes, onUserLogIn }) => {
         }
       })
       .catch(function(error) {
+        ToastrService.error("Wrong credentials.");
         console.log(error);
       });
   };
