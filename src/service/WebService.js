@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const BASE_URL = "https://shenan-d-euw-api-svc.azurewebsites.net/";
+const BASE_URL = "https://shenan.azurewebsites.net/";
 const WebService = {
   config() {
     return {
