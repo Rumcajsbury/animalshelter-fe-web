@@ -75,7 +75,7 @@ const AnimalPage = ({ location }) => {
         <h6>Age: {animal?.age}</h6>
         <h6>{animal?.description}</h6>
         {animal.images?.map(img => (
-          <Image width={100} src={img.path} thumbnail />
+          <Image width={500} src={img.path} thumbnail />
         ))}
       </Card>
       {showPopUp && (

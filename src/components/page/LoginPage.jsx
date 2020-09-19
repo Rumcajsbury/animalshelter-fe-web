@@ -119,7 +119,7 @@ const LoginPage = ({ classes, onUserLogIn }) => {
                   Rola
                 </InputLabel>
                 <Select value={user.userType} onChange={handleUserTypeChange}>
-                  <MenuItem value="Admin">Admin</MenuItem>
+                  {/* <MenuItem value="Admin">Admin</MenuItem> Currently disabled because no feature is available yet */}
                   <MenuItem value="Donor">Darczyńca</MenuItem>
                   <MenuItem value="Shelter">Użytkownik schroniska</MenuItem>
                 </Select>

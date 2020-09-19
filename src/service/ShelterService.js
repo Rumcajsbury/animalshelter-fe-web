@@ -11,7 +11,7 @@ const ShelterService = {
         let today = new Date();
         let startDate = new Date(2000, 1, 1, 0, 0, 0);
         let startMonth = startDate.getMonth() + 1;
-        let month = startDate.getMonth() + 1;
+        let month = today.getMonth() + 1;
         return WebService.get('/shelters/income?startDate=' + startDate.getFullYear() + "-" + startMonth + "-" + startDate.getDate() + '&endDate=' + today.getFullYear() + "-" + month + "-" + today.getDate());
     },
     getShelters() {

@@ -52,8 +52,12 @@ const YourShelterPage = () => {
             description: newAnimal.description,
             active: true
         };
-        AnimalService.postAddAnimal(animalToAdd).then(response => console.log(response)).catch(error => console.log(error))
-        setAnimals([animalToAdd, ...animals]);
+        AnimalService.postAddAnimal(animalToAdd)
+        .then(response => {
+            console.log(response);
+            animalToAdd.id = response.data;
+            setAnimals([animalToAdd, ...animals]);
+        }).catch(error => console.log(error));
     };
 
     const sendShelterPhoto = (photo) => {
@@ -99,10 +103,10 @@ const YourShelterPage = () => {
                                 }}
                             >
                                 <ListItemAvatar>
-                                    {(animal.images.length !== 0) && (
+                                    {(animal.images !== undefined && animal.images.length !== 0) && (
                                         <Avatar src={animal.images[0].path}/>
                                     )}
-                                    {(animal.images.length === 0) && (
+                                    {(animal.images === undefined || animal.images.length === 0) && (
                                         <Avatar>
                                             <Pets/>
                                         </Avatar>
